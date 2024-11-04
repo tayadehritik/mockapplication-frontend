@@ -1,8 +1,73 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+<script>
+  import { ref, onMounted } from 'vue'
+  import axios from 'axios';
+  import { data } from 'autoprefixer';
+  import 'primeflex/primeflex.css';
 
+  export default {
+    
+
+    setup() {
+    // reactive state
+    const count = ref()
+    const transferorders = ref([])
+    const colnames = ref([])
+
+    // functions that mutate state and trigger updates
+    function increment() {
+      count.value++
+    }
+
+    // lifecycle hooks
+    onMounted(async () => {
+        try {
+          const response = await axios.get('http://142.93.220.39:3000/transferorders/get/cust_1');
+          transferorders.value = response.data
+          colnames.value = Object.keys(response.data[0])
+          
+        } catch (err) {
+          
+        } finally {
+          
+        }
+      });
+
+      return {
+        data,
+        transferorders,
+        colnames
+      }
+    }
+  }
+</script>
+  
+<template>
+  <div class="">
+    <Tabs>
+      <TabList>
+          <Tab value="0">Customer 1</Tab>
+          <Tab value="1">Customer 2</Tab>
+          <Tab value="2">Customer 3</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel value="0">
+            <DataTable :value="transferorders" showGridlines tableStyle="min-width: 50rem" class="responsive-table">
+                    <Column v-for="col in colnames" :field="col" :header="col"></Column>
+            </DataTable>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  </div>
+</template>
+
+
+<style>
+  button {
+    font-weight: bold;
+  }
+
+</style>
+<!--
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -83,3 +148,4 @@ nav a:first-of-type {
   }
 }
 </style>
+-->
