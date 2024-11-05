@@ -1,7 +1,6 @@
 <script>
   import { ref, onMounted } from 'vue'
   import axios from 'axios';
-  import { data } from 'autoprefixer';
   import 'primeflex/primeflex.css';
 
   export default {
@@ -9,21 +8,29 @@
 
     setup() {
     // reactive state
-    const count = ref()
-    const transferorders = ref([])
-    const colnames = ref([])
+    const count = ref();
+    const cust_1_transferorders = ref([]);
+    const cust_2_transferorders = ref([]);
+    const cust_3_transferorders = ref([]);
+    const colnames = ref([]);
 
     // functions that mutate state and trigger updates
     function increment() {
-      count.value++
+      count.value++;
     }
 
     // lifecycle hooks
     onMounted(async () => {
         try {
-          const response = await axios.get('http://142.93.220.39:3000/transferorders/get/cust_1');
-          transferorders.value = response.data
-          colnames.value = Object.keys(response.data[0])
+          const [cust_1_response,cust_2_response, cust_3_response] = await Promise.all ([
+            axios.get("http://142.93.220.39:3000/transferorders/get/cust_1"),
+            axios.get("http://142.93.220.39:3000/transferorders/get/cust_2"),
+            axios.get("http://142.93.220.39:3000/transferorders/get/cust_3")
+          ]);
+          cust_1_transferorders.value = cust_1_response.data;
+          cust_2_transferorders.value = cust_2_response.data;
+          cust_3_transferorders.value = cust_3_response.data;
+          colnames.value = Object.keys(cust_1_response.data[0]);
           
         } catch (err) {
           
@@ -33,8 +40,9 @@
       });
 
       return {
-        data,
-        transferorders,
+        cust_1_transferorders,
+        cust_2_transferorders,
+        cust_3_transferorders,
         colnames
       }
     }
@@ -42,7 +50,7 @@
 </script>
   
 <template>
-  <div class="">
+  <div class="flex flex-column">
     <Tabs>
       <TabList>
           <Tab value="0">Customer 1</Tab>
@@ -51,7 +59,23 @@
       </TabList>
       <TabPanels>
         <TabPanel value="0">
-            <DataTable :value="transferorders" showGridlines scrollable scrollHeight="400px" class="responsive-table">
+            <div class="flex flex-row gap-2">
+              <Button>Create Order</Button>
+              <Button>Delete Order</Button>
+              <Button>Edit Order</Button>
+            </div>
+            <Divider />
+            <DataTable :value="cust_1_transferorders" resizableColumns columnResizeMode="fit" showGridlines scrollable scrollHeight="400px" class="responsive-table">
+                    <Column v-for="col in colnames" :field="col" :header="col"></Column>
+            </DataTable>
+        </TabPanel>
+        <TabPanel value="1">
+            <DataTable :value="cust_2_transferorders" resizableColumns columnResizeMode="fit" showGridlines scrollable scrollHeight="400px" class="responsive-table">
+                    <Column v-for="col in colnames" :field="col" :header="col"></Column>
+            </DataTable>
+        </TabPanel>
+        <TabPanel value="2">
+            <DataTable :value="cust_3_transferorders" resizableColumns columnResizeMode="fit" showGridlines scrollable scrollHeight="400px" class="responsive-table">
                     <Column v-for="col in colnames" :field="col" :header="col"></Column>
             </DataTable>
         </TabPanel>

@@ -18,6 +18,8 @@ import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+import Divider from 'primevue/divider';
+import Menubar from 'primevue/menubar';
 
 const app = createApp(App)
 
@@ -39,5 +41,8 @@ app.component('Tabs', Tabs);
 app.component('Tab', Tab);
 app.component('TabPanel', TabPanel);
 app.component('TabPanels', TabPanels);
+
+app.component('Menubar', Menubar);
+app.component('Divider', Divider);
 
 app.mount('#app')
