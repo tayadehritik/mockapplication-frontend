@@ -51,7 +51,7 @@
       </TabList>
       <TabPanels>
         <TabPanel value="0">
-            <DataTable :value="transferorders" showGridlines tableStyle="min-width: 50rem" class="responsive-table">
+            <DataTable :value="transferorders" showGridlines scrollable scrollHeight="400px" class="responsive-table">
                     <Column v-for="col in colnames" :field="col" :header="col"></Column>
             </DataTable>
         </TabPanel>
