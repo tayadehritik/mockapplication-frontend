@@ -20,6 +20,9 @@ import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Divider from 'primevue/divider';
 import Menubar from 'primevue/menubar';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import Select from 'primevue/select';
 
 const app = createApp(App)
 
@@ -44,5 +47,8 @@ app.component('TabPanels', TabPanels);
 
 app.component('Menubar', Menubar);
 app.component('Divider', Divider);
+app.component('Dialog', Dialog);
+app.component('InputText', InputText);
+app.component('Select', Select);
 
 app.mount('#app')
