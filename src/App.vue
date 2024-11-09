@@ -40,7 +40,7 @@
         } catch(err) {
 
         } finally {
-
+          fetchOrders();
         }
     }
 
@@ -48,9 +48,8 @@
       console.log(selectedOrders.value.cust_1)
     }
 
-    // lifecycle hooks
-    onMounted(async () => {
-        try {
+    async function fetchOrders() {
+      try {
           const [cust_1_response,cust_2_response, cust_3_response] = await Promise.all ([
             axios.get("http://142.93.220.39:3000/transferorders/get/cust_1"),
             axios.get("http://142.93.220.39:3000/transferorders/get/cust_2"),
@@ -66,7 +65,10 @@
         } finally {
           
         }
-    });
+    }
+
+    // lifecycle hooks
+    onMounted(fetchOrders);
 
     
 
